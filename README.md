@@ -1,3 +1,3 @@
-## REMATCH
+# REMATCH
 
-# Application de localisation pour malvoyants
+## Application de localisation pour malvoyants
