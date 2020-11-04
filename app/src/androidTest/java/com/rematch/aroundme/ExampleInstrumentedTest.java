@@ -1,4 +1,4 @@
-package com.example.locationuser;
+package com.rematch.aroundme;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.example.locationuser", appContext.getPackageName());
+        assertEquals("com.rematch.aroundme", appContext.getPackageName());
     }
 }

@@ -1,4 +1,4 @@
-package com.example.locationuser;
+package com.rematch.aroundme;
 
 import org.junit.Test;
 
