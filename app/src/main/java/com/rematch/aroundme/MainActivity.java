@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -44,33 +45,20 @@ public class MainActivity extends AppCompatActivity {
     // Initialise variable
     Spinner spType;
     Button btFind;
+    TextView locationView;
+    TextView placesView;
+    TextView requestView;
     SupportMapFragment supportMapFragment;
     GoogleMap map;
     FusedLocationProviderClient client;
     double currentLat = 0, currentLong = 0;
 
+    // Tests
+    String rawData = "empty";
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        // Assign variable
-        spType = findViewById(R.id.sp_type);
-        btFind = findViewById(R.id.bt_find);
-        supportMapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.google_map);
-
-        // Initialise array of place type
-        final String[] placeTypeList = {"atm", "bank", "hospital", "movie_theater", "restaurant"};
-        // Initialise array of place names
-        String[] placeNameList = {"ATM", "Bank", "Hospital", "Movie Theater", "Restaurant"};
-
-        // Set adapter for Spinner
-        spType.setAdapter(new ArrayAdapter<String>(MainActivity.this
-                , android.R.layout.simple_spinner_dropdown_item, placeNameList));
-
-        // Initialise fused location provider client
-        client = LocationServices.getFusedLocationProviderClient(this);
+    protected void onResume() {
+        super.onResume();
 
         // Check permissions
         if (ActivityCompat.checkSelfPermission(MainActivity.this,
@@ -83,6 +71,33 @@ public class MainActivity extends AppCompatActivity {
             // Request permission
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
         }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        // Assign variable
+        spType = findViewById(R.id.sp_type);
+        btFind = findViewById(R.id.bt_find);
+        locationView = findViewById(R.id.location);
+//        placesView = findViewById(R.id.places);
+        requestView = findViewById(R.id.request);
+        supportMapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.google_map);
+
+        // Initialise fused location provider client
+        client = LocationServices.getFusedLocationProviderClient(this);
+
+        // Initialise array of place type
+        final String[] placeTypeList = {"atm", "bank", "hospital", "movie_theater", "restaurant"};
+        // Initialise array of place names
+        String[] placeNameList = {"ATM", "Bank", "Hospital", "Movie Theater", "Restaurant"};
+
+        // Set adapter for Spinner
+        spType.setAdapter(new ArrayAdapter<String>(MainActivity.this
+                , android.R.layout.simple_spinner_dropdown_item, placeNameList));
 
         btFind.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,14 +107,15 @@ public class MainActivity extends AppCompatActivity {
                 // Initialize url
                 String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json" + //Url
                 "?location=" + currentLat + "," + currentLong + //Location latitude and longitude
-                "&radius=5000" + //Nearby radius
+                "&radius=500" + //Nearby radius
                 "&types=" + placeTypeList[i] + //place type
                 "&sensor=true" + //sensor
                 "&key=" + getResources().getString(R.string.google_map_key); //Google map key
 
                 // Execute place task method to download json data
                 new PlaceTask().execute(url);
-
+//                placesView.setText(rawData);
+                requestView.setText(url);
             }
         });
 
@@ -125,10 +141,13 @@ public class MainActivity extends AppCompatActivity {
                 // When successfull
                 if (location != null){
                     // Get current latitude
-                    //currentLat = location.getLatitude();
+                    currentLat = location.getLatitude();
                     // Get current longitude
-                    //currentLong = location.getLongitude();
+                    currentLong = location.getLongitude();
                     // Sync map
+
+                    // A DECOMMENTER POUR RAJOUTER LA CARTE
+
                     supportMapFragment.getMapAsync(new OnMapReadyCallback() {
                         @Override
                         public void onMapReady(GoogleMap googleMap) {
@@ -136,12 +155,14 @@ public class MainActivity extends AppCompatActivity {
                             map = googleMap;
 
                             // Initialise LatLng
-                            //LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+
+                            locationView.setText(latLng.toString());
 
                             // Initialize fake lat lng for development purpose
-                            currentLat = 45.763850;
-                            currentLong = 4.868139;
-                            LatLng latLng = new LatLng(currentLat, currentLong);
+                            //currentLat = 45.763850;
+                            //currentLong = 4.868139;
+                            //LatLng latLng = new LatLng(currentLat, currentLong);
 
                             // Add marker
                             MarkerOptions options = new MarkerOptions().position(latLng)
@@ -154,6 +175,8 @@ public class MainActivity extends AppCompatActivity {
                             googleMap.addMarker(options);
                         }
                     });
+                } else {
+                    locationView.setText("No location found");
                 }
             }
         });
@@ -182,6 +205,7 @@ public class MainActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            rawData = data;
             return data;
         }
 
@@ -248,16 +272,17 @@ public class MainActivity extends AppCompatActivity {
             // Clear map
             map.clear();
             // Use for loop
+            String results = "";
             for(int i=0; i<hashMaps.size(); i++){
-                // Initialize hash map
+//                // Initialize hash map
                 HashMap<String,String> hashMapList = hashMaps.get(i);
-                //Get latitude
+//                //Get latitude
                 double lat = Double.parseDouble(hashMapList.get("lat"));
-                //Get longitude
+//                //Get longitude
                 double lng = Double.parseDouble(hashMapList.get("lng"));
-                //Get name
+//                //Get name
                 String name = hashMapList.get("name");
-                //Concat latitude and longitude
+//                //Concat latitude and longitude
                 LatLng latLng = new LatLng(lat, lng);
                 // Initialize marker options
                 MarkerOptions options = new MarkerOptions();
@@ -267,7 +292,10 @@ public class MainActivity extends AppCompatActivity {
                 options.title(name);
                 // Add marker on map
                 map.addMarker(options);
+
+                results += name + "\n" + latLng.toString() +"\n\n";
             }
+//            placesView.setText(results);
         }
     }
 

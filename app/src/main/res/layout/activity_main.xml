@@ -11,21 +11,52 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="8dp">
-        
-        <Spinner
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:id="@+id/sp_type"
-            android:background="@android:drawable/editbox_background"/>
+        android:orientation="vertical">
 
-        <Button
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/bt_find"
-            android:text="Find"/>
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+            <Spinner
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/sp_type"
+                android:background="@android:drawable/editbox_background"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/bt_find"
+                android:text="Find"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Location"
+            android:textAlignment="center"
+            android:padding="4dp" />
+
+<!--        <TextView-->
+<!--            android:id="@+id/places"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:padding="4dp"-->
+<!--            android:text="Places found"-->
+<!--            android:textAlignment="center" />-->
+
+        <TextView
+            android:id="@+id/request"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:text="request sent"
+            android:textAlignment="center" />
 
     </LinearLayout>
 
@@ -34,5 +65,6 @@
         android:layout_height="match_parent"
         android:id="@+id/google_map"
         android:name="com.google.android.gms.maps.SupportMapFragment"/>
+
 
 </LinearLayout>
