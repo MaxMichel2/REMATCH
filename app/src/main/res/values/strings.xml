@@ -1,5 +1,4 @@
 <resources>
     <string name="app_name">Around Me</string>
-    <string name="google_map_key">AIzaSyA1wFOxLLRDi6MWhKfLMkyPTP6MNkoRGug</string> //clé Maxime
-    //AIzaSyAuZiYLr5Mdbaed5rJ5bSi8Xh5Ry6baEXc //clé Théotime
+    <string name="google_map_key">/*** GOOGLE API KEY HERE ***/</string>
 </resources>
