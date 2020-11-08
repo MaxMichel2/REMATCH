@@ -45,16 +45,10 @@ public class MainActivity extends AppCompatActivity {
     // Initialise variable
     Spinner spType;
     Button btFind;
-    TextView locationView;
-    TextView placesView;
-    TextView requestView;
     SupportMapFragment supportMapFragment;
     GoogleMap map;
     FusedLocationProviderClient client;
     double currentLat = 0, currentLong = 0;
-
-    // Tests
-    String rawData = "empty";
 
     @Override
     protected void onResume() {
@@ -81,9 +75,6 @@ public class MainActivity extends AppCompatActivity {
         // Assign variable
         spType = findViewById(R.id.sp_type);
         btFind = findViewById(R.id.bt_find);
-        locationView = findViewById(R.id.location);
-//        placesView = findViewById(R.id.places);
-        requestView = findViewById(R.id.request);
         supportMapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.google_map);
 
@@ -114,8 +105,6 @@ public class MainActivity extends AppCompatActivity {
 
                 // Execute place task method to download json data
                 new PlaceTask().execute(url);
-//                placesView.setText(rawData);
-                requestView.setText(url);
             }
         });
 
@@ -133,21 +122,22 @@ public class MainActivity extends AppCompatActivity {
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
+
+        // TODO: Change the fused Location call to a continuous GPS call (subscribe to "requestLocationUpdates" method)
+        //      For now, if the GPS has no fix at the opening of the app, we get 0.0, 0.0 as location.
+
         Task<Location> task = client.getLastLocation();
 
         task.addOnSuccessListener(new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(final Location location) {
-                // When successfull
+                // When successful
                 if (location != null){
                     // Get current latitude
                     currentLat = location.getLatitude();
                     // Get current longitude
                     currentLong = location.getLongitude();
                     // Sync map
-
-                    // A DECOMMENTER POUR RAJOUTER LA CARTE
-
                     supportMapFragment.getMapAsync(new OnMapReadyCallback() {
                         @Override
                         public void onMapReady(GoogleMap googleMap) {
@@ -155,14 +145,12 @@ public class MainActivity extends AppCompatActivity {
                             map = googleMap;
 
                             // Initialise LatLng
-                            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                            LatLng latLng = new LatLng(currentLat, currentLong);
 
-                            locationView.setText(latLng.toString());
-
-                            // Initialize fake lat lng for development purpose
-                            //currentLat = 45.763850;
-                            //currentLong = 4.868139;
-                            //LatLng latLng = new LatLng(currentLat, currentLong);
+//                            // Initialize fake lat lng for development purpose
+//                            currentLat = 45.763850;
+//                            currentLong = 4.868139;
+//                            LatLng latLng = new LatLng(currentLat, currentLong);
 
                             // Add marker
                             MarkerOptions options = new MarkerOptions().position(latLng)
@@ -176,7 +164,6 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                 } else {
-                    locationView.setText("No location found");
                 }
             }
         });
@@ -205,7 +192,6 @@ public class MainActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            rawData = data;
             return data;
         }
 
@@ -246,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // Task to parse the data String to
+    // Task to parse the data String to a List<HashMap<String,String>>
     private class ParserTask extends AsyncTask<String,Integer,List<HashMap<String,String>>> {
         @Override
         protected List<HashMap<String, String>> doInBackground(String... strings) {
@@ -257,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
             JSONObject object = null;
             try {
                 // Initialize JSON object
-                 object = new JSONObject(strings[0]);
+                object = new JSONObject(strings[0]);
                  // Parse json object
                 mapList = jsonParser.parseResult(object);
             } catch (JSONException e) {
@@ -295,7 +281,6 @@ public class MainActivity extends AppCompatActivity {
 
                 results += name + "\n" + latLng.toString() +"\n\n";
             }
-//            placesView.setText(results);
         }
     }
 
