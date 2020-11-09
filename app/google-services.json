@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "256715864187",
+    "firebase_url": "https://pils-e1945.firebaseio.com",
+    "project_id": "pils-e1945",
+    "storage_bucket": "pils-e1945.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:256715864187:android:f8d77c3daeff9e0f0c8ade",
+        "android_client_info": {
+          "package_name": "com.rematch.aroundme"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "256715864187-8cusr6u0gkhd0jlotv6si08l4gh26jfi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvnMVpsmMNsfLgCskwA6AimQn_qZwzrzM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "256715864187-8cusr6u0gkhd0jlotv6si08l4gh26jfi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
