@@ -1,16 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/image_detection_btn"
+    <TextView
+        android:id="@+id/tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
-        tools:layout_editor_absoluteX="128dp"
-        tools:layout_editor_absoluteY="214dp" />
-</RelativeLayout>
+        android:layout_marginTop="32dp"
+        android:text="MENU PRINCIPAL"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="parent"/>
+
+    <Button
+        android:id="@+id/image_detection_btn"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="400dp"
+        android:layout_marginBottom="50dp"
+        android:background="@android:color/holo_blue_dark"
+        android:text="Scanner environnement"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintTop_toBottomOf="@+id/tv1"
+
+        />
+
+    <Button
+        android:id="@+id/api_maps"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="250dp"
+        android:layout_marginBottom="2dp"
+        android:background="@android:color/holo_green_dark"
+        android:text="Liste des magasins autour"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintTop_toBottomOf="@+id/image_detection_btn"
+
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>

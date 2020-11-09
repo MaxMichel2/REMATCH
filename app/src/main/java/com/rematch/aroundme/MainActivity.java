@@ -45,13 +45,20 @@ import javax.net.ssl.HttpsURLConnection;
 public class MainActivity extends AppCompatActivity {
     // Initialise variable
     private Button buttonImage;
+    private Button buttonMaps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         buttonImage = findViewById(R.id.image_detection_btn);
+        buttonMaps = findViewById(R.id.api_maps);
+        buttonMaps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openMapsActivity();
+            }
+        });
         buttonImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,5 +72,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, InterfaceActivity.class);
         startActivity(intent);
     }
-
+    public void openMapsActivity()
+    {
+        Intent intent = new Intent(this, APImapsActivity.class);
+        startActivity(intent);
+    }
 }
