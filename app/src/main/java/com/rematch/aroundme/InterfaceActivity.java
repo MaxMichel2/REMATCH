@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -26,6 +27,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.List;
+import java.util.Locale;
 
 public class InterfaceActivity extends AppCompatActivity {
     private ImageView imageView;
@@ -33,6 +35,7 @@ public class InterfaceActivity extends AppCompatActivity {
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private Bitmap imageBitmap;
 
+    private TextToSpeech tts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -45,6 +48,15 @@ public class InterfaceActivity extends AppCompatActivity {
         textView = findViewById(R.id.text_display);
         dispatchTakePictureIntent();
         textView.setText("");
+
+        tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status != TextToSpeech.ERROR) {
+                    tts.setLanguage(Locale.FRANCE);
+                }
+            }
+        });
     }
 
     private void dispatchTakePictureIntent()
@@ -99,6 +111,7 @@ public class InterfaceActivity extends AppCompatActivity {
             for (FirebaseVisionText.Block block : firebaseVisionText.getBlocks()){
                 String text = block.getText();
                 textView.setText(text);
+                tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
             }
         }
     }
