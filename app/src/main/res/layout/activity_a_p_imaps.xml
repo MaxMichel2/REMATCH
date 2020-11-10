@@ -25,6 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/bt_find"
+            android:background="@android:color/holo_orange_light"
             android:text="Find"/>
 
 
