@@ -9,10 +9,14 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -33,8 +37,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.zip.Inflater;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -42,10 +49,13 @@ public class APImapsActivity extends AppCompatActivity {
     // Initialise variable
     Spinner spType;
     Button btFind;
+    TextView textView;
     SupportMapFragment supportMapFragment;
     GoogleMap map;
     FusedLocationProviderClient client;
     double currentLat = 0, currentLong = 0;
+
+    private TextToSpeech tts;
 
     @Override
     protected void onResume() {
@@ -70,6 +80,7 @@ public class APImapsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_a_p_imaps);
 
         // Assign variable
+        textView = findViewById(R.id.text_view);
         spType = findViewById(R.id.sp_type);
         btFind = findViewById(R.id.bt_find);
         supportMapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -98,10 +109,19 @@ public class APImapsActivity extends AppCompatActivity {
                         "&radius=500" + //Nearby radius
                         "&types=" + placeTypeList[i] + //place type
                         "&sensor=true" + //sensor
-                        "&key=" + getResources().getString(R.string.google_map_key); //Google map key
+                        "&key="; //Google map key
 
                 // Execute place task method to download json data
                 new APImapsActivity.PlaceTask().execute(url);
+            }
+        });
+
+        tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status != TextToSpeech.ERROR) {
+                    tts.setLanguage(Locale.FRANCE);
+                }
             }
         });
 
@@ -225,8 +245,8 @@ public class APImapsActivity extends AppCompatActivity {
             reader.close();
             // Return data
             return data;
-
-        }
+            
+            }
     }
 
     // Task to parse the data String to a List<HashMap<String,String>>
@@ -246,6 +266,19 @@ public class APImapsActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+            
+            // Display data on textview and convert text to speech 
+            String list_values = "";
+            for (int i = 0; i < mapList.size();i++)
+            {
+                List values = new ArrayList(mapList.get(i).values());
+                String text = values.get(1).toString();
+                list_values = list_values + "\n" + text;
+            }
+
+            textView.setText(list_values);
+            tts.speak(list_values, TextToSpeech.QUEUE_FLUSH, null);
+
             // Return map list
             return mapList;
         }
