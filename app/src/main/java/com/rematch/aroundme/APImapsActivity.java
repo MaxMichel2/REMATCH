@@ -109,7 +109,7 @@ public class APImapsActivity extends AppCompatActivity {
                         "&radius=500" + //Nearby radius
                         "&types=" + placeTypeList[i] + //place type
                         "&sensor=true" + //sensor
-                        "&key="; //Google map key
+                        "&key=" + getResources().getString(R.string.google_map_key); //Google map key
 
                 // Execute place task method to download json data
                 new APImapsActivity.PlaceTask().execute(url);
