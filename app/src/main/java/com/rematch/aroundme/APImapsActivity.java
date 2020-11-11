@@ -55,7 +55,7 @@ public class APImapsActivity extends AppCompatActivity {
     TextView textView;
     SupportMapFragment supportMapFragment;
     GoogleMap map;
-    Context context;
+    AlertDialog.Builder builder;
     FusedLocationProviderClient client;
     double currentLat = 0, currentLong = 0;
 
@@ -93,6 +93,7 @@ public class APImapsActivity extends AppCompatActivity {
         // Initialise fused location provider client
         client = LocationServices.getFusedLocationProviderClient(this);
 
+        builder= new AlertDialog.Builder(this);
         // Initialise array of place type
         final String[] placeTypeList = {"atm", "bank", "hospital", "movie_theater", "restaurant"};
         // Initialise array of place names
@@ -281,7 +282,6 @@ public class APImapsActivity extends AppCompatActivity {
             }
 
             //textView.setText(list_values);
-            AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setTitle("Endroits à proximité");
             builder.setItems(Integer.parseInt(list_values), new DialogInterface.OnClickListener() {
                 @Override
