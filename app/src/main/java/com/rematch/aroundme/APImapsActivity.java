@@ -283,12 +283,12 @@ public class APImapsActivity extends AppCompatActivity {
 
             //textView.setText(list_values);
             builder.setTitle("Endroits à proximité");
-            builder.setItems(Integer.parseInt(list_values), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                }
-            });// create and show the alert dialog
+            builder.setMessage(list_values);
             AlertDialog dialog = builder.create();
+            /**builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                }
+            });**/
             dialog.show();
             tts.speak(list_values, TextToSpeech.QUEUE_FLUSH, null);
 
