@@ -1,10 +1,13 @@
 package com.rematch.aroundme;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.AsyncTask;
@@ -52,6 +55,7 @@ public class APImapsActivity extends AppCompatActivity {
     TextView textView;
     SupportMapFragment supportMapFragment;
     GoogleMap map;
+    Context context;
     FusedLocationProviderClient client;
     double currentLat = 0, currentLong = 0;
 
@@ -245,8 +249,8 @@ public class APImapsActivity extends AppCompatActivity {
             reader.close();
             // Return data
             return data;
-            
-            }
+
+        }
     }
 
     // Task to parse the data String to a List<HashMap<String,String>>
@@ -266,8 +270,8 @@ public class APImapsActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            
-            // Display data on textview and convert text to speech 
+
+            // Display data on textview and convert text to speech
             String list_values = "";
             for (int i = 0; i < mapList.size();i++)
             {
@@ -276,7 +280,16 @@ public class APImapsActivity extends AppCompatActivity {
                 list_values = list_values + "\n" + text;
             }
 
-            textView.setText(list_values);
+            //textView.setText(list_values);
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle("Endroits à proximité");
+            builder.setItems(Integer.parseInt(list_values), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });// create and show the alert dialog
+            AlertDialog dialog = builder.create();
+            dialog.show();
             tts.speak(list_values, TextToSpeech.QUEUE_FLUSH, null);
 
             // Return map list
