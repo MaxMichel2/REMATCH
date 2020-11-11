@@ -282,11 +282,17 @@ public class APImapsActivity extends AppCompatActivity {
                 list_values = list_values + "\n" + text;
             }
 
-            //textView.setText(list_values);
-            Context context = getApplicationContext();
-            Toast t = Toast.makeText(context, list_values, Toast.LENGTH_LONG);
-            t.show();
+            textView.setText(list_values);
+
             /**
+            Context context = getApplicationContext();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast t = Toast.makeText(context, list_values, Toast.LENGTH_LONG);
+                    t.show();
+                }
+            });
 
             builder.setTitle("Endroits à proximité");
             builder.setMessage(list_values);
