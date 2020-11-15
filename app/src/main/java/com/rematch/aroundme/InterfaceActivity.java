@@ -94,7 +94,6 @@ public class InterfaceActivity extends AppCompatActivity {
             public void onFailure(@NonNull Exception e)
             {
                 Toast.makeText(InterfaceActivity.this, "Error: "+e.getMessage(), Toast.LENGTH_SHORT).show();
-
                 Log.d("Error: ", e.getMessage());
 
             }
@@ -106,6 +105,7 @@ public class InterfaceActivity extends AppCompatActivity {
         List<FirebaseVisionText.Block> blockList = firebaseVisionText.getBlocks();
         if (blockList.size()==0){
             Toast.makeText(this, "No text found in Image.", Toast.LENGTH_SHORT).show();
+            tts.speak("Pas de texte trouvé. Veuillez reprendre la photo.", TextToSpeech.QUEUE_FLUSH, null);
         }
         else {
             for (FirebaseVisionText.Block block : firebaseVisionText.getBlocks()){

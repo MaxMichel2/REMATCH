@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -281,15 +282,31 @@ public class APImapsActivity extends AppCompatActivity {
                 list_values = list_values + "\n" + text;
             }
 
-            //textView.setText(list_values);
+            textView.setText(list_values);
+
+            /**
+            Context context = getApplicationContext();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast t = Toast.makeText(context, list_values, Toast.LENGTH_LONG);
+                    t.show();
+                }
+            });
+
             builder.setTitle("Endroits à proximité");
             builder.setMessage(list_values);
-            AlertDialog dialog = builder.create();
-            /**builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
+            APImapsActivity.runOnUiThread(new Runnable() {
+                public void run() {
+
+                    AlertDialog dialog = builder.create();
+                    /**builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                     public void onClick(DialogInterface dialog, int whichButton) {
+                     }
+                     });
+                    dialog.show();
                 }
-            });**/
-            dialog.show();
+            }); **/
             tts.speak(list_values, TextToSpeech.QUEUE_FLUSH, null);
 
             // Return map list
