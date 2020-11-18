@@ -6,20 +6,28 @@
     android:layout_height="match_parent"
     tools:context=".InterfaceActivity">
 
-    <ImageView
-        android:id="@+id/image_view"
+    <com.otaliastudios.cameraview.CameraView
+        android:id="@+id/camera"
+        android:keepScreenOn="true"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
-        />
+        android:layout_height="500dp" />
+
     <TextView
         android:id="@+id/text_display"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text=""
-        android:layout_below="@+id/image_view"
+        android:layout_below="@+id/camera"
         android:textSize="26dp"
         android:maxLines="5"
         android:layout_margin="10dp"
         />
+
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_below="@+id/text_display"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:keepScreenOn="true" />
 
 </RelativeLayout>

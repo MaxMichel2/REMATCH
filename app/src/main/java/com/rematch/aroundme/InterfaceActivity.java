@@ -1,10 +1,17 @@
 package com.rematch.aroundme;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.WorkerThread;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.ImageFormat;
+import android.graphics.Matrix;
+import android.graphics.Rect;
+import android.graphics.YuvImage;
+import android.media.Image;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.speech.tts.TextToSpeech;
@@ -25,7 +32,12 @@ import com.google.firebase.ml.vision.text.FirebaseVisionTextDetector;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.otaliastudios.cameraview.CameraView;
+import com.otaliastudios.cameraview.frame.Frame;
+import com.otaliastudios.cameraview.frame.FrameProcessor;
+import com.otaliastudios.cameraview.size.Size;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 import java.util.Locale;
 
@@ -36,7 +48,6 @@ public class InterfaceActivity extends AppCompatActivity {
     private Bitmap imageBitmap;
 
     private TextToSpeech tts;
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -45,8 +56,41 @@ public class InterfaceActivity extends AppCompatActivity {
         FirebaseApp.initializeApp(InterfaceActivity.this);
 
         imageView = findViewById(R.id.image_view);
+        CameraView camera = findViewById(R.id.camera);
+        camera.setLifecycleOwner(this);
+
+        camera.addFrameProcessor(new FrameProcessor() {
+                                     @Override
+                                     @WorkerThread
+                                     public void process(@NonNull Frame frame) {
+                                         long time = frame.getTime();
+                                         Size size = frame.getSize();
+                                         int format = frame.getFormat();
+                                         int userRotation = frame.getRotationToUser();
+                                         int viewRotation = frame.getRotationToView();
+                                         if (frame.getDataClass() == byte[].class) {
+                                             ByteArrayOutputStream out = new ByteArrayOutputStream();
+                                             YuvImage yuvImage = new YuvImage((byte[]) frame.getData(), ImageFormat.NV21, frame.getSize().getWidth(), frame.getSize().getHeight(), null);
+                                             yuvImage.compressToJpeg(new Rect(0, 0, frame.getSize().getWidth(), frame.getSize().getHeight()), 90, out);
+                                             byte[] data = out.toByteArray();
+
+                                             imageBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                                             imageBitmap = RotateBitmap(imageBitmap, 90);
+                                             imageView.setImageBitmap(imageBitmap);
+                                             detectTextFromImage();
+
+
+                                         } else if (frame.getDataClass() == Image.class) {
+                                             Image data = frame.getData();
+                                             System.out.println("Data Bonjour");
+                                                 // Process android.media.Image...
+                                             }
+                                         }
+                                     });
+
+
         textView = findViewById(R.id.text_display);
-        dispatchTakePictureIntent();
+        //dispatchTakePictureIntent();
         textView.setText("");
 
         tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
@@ -57,6 +101,13 @@ public class InterfaceActivity extends AppCompatActivity {
                 }
             }
         });
+
+    }
+    public static Bitmap RotateBitmap(Bitmap source, float angle)
+    {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
     }
 
     private void dispatchTakePictureIntent()
@@ -75,7 +126,7 @@ public class InterfaceActivity extends AppCompatActivity {
             Bundle extras = data.getExtras();
             imageBitmap = (Bitmap) extras.get("data");
             imageView.setImageBitmap(imageBitmap);
-            detectTextFromImage();
+            //detectTextFromImage();
         }
     }
     private void detectTextFromImage()
@@ -113,6 +164,7 @@ public class InterfaceActivity extends AppCompatActivity {
                 textView.setText(text);
                 tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
             }
+
         }
     }
 
