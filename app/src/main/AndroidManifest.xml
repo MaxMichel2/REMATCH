@@ -18,11 +18,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AroundMe">
         <activity android:name=".APImapsActivity" />
-        <activity android:name=".InterfaceActivity">
-            <meta-data
-                android:name="com.google.firebase.ml.vision.DEPENDENCIES"
-                android:value="ocr" />
-        </activity>
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_map_key" />
