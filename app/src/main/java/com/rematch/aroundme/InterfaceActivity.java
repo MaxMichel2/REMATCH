@@ -63,11 +63,7 @@ public class InterfaceActivity extends AppCompatActivity {
                                      @Override
                                      @WorkerThread
                                      public void process(@NonNull Frame frame) {
-                                         long time = frame.getTime();
-                                         Size size = frame.getSize();
-                                         int format = frame.getFormat();
-                                         int userRotation = frame.getRotationToUser();
-                                         int viewRotation = frame.getRotationToView();
+
                                          if (frame.getDataClass() == byte[].class) {
                                              ByteArrayOutputStream out = new ByteArrayOutputStream();
                                              YuvImage yuvImage = new YuvImage((byte[]) frame.getData(), ImageFormat.NV21, frame.getSize().getWidth(), frame.getSize().getHeight(), null);
@@ -90,7 +86,6 @@ public class InterfaceActivity extends AppCompatActivity {
 
 
         textView = findViewById(R.id.text_display);
-        //dispatchTakePictureIntent();
         textView.setText("");
 
         tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
@@ -110,25 +105,6 @@ public class InterfaceActivity extends AppCompatActivity {
         return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
     }
 
-    private void dispatchTakePictureIntent()
-    {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null){
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            imageBitmap = (Bitmap) extras.get("data");
-            imageView.setImageBitmap(imageBitmap);
-            //detectTextFromImage();
-        }
-    }
     private void detectTextFromImage()
     {
         FirebaseVisionImage firebaseVisionImage = FirebaseVisionImage.fromBitmap(imageBitmap);
