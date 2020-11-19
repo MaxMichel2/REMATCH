@@ -112,8 +112,8 @@ public class APImapsActivity extends AppCompatActivity {
                 // Initialize url
                 String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json" + //Url
                         "?location=" + currentLat + "," + currentLong + //Location latitude and longitude
-                        "&radius=500" + //Nearby radius
-                        "&types=" + placeTypeList[i] + //place type
+                        "&radius=50" + //Nearby radius
+//                        "&types=" + placeTypeList[i] + //place type
                         "&sensor=true" + //sensor
                         "&key=" + getResources().getString(R.string.google_map_key); //Google map key
 
