@@ -11,15 +11,27 @@
         android:layout_width="match_parent"
         android:layout_height="400dp"
         />
+
     <TextView
         android:id="@+id/text_display"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text=""
+        android:layout_width="401dp"
+        android:layout_height="96dp"
         android:layout_below="@+id/image_view"
-        android:textSize="26dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
         android:maxLines="5"
-        android:layout_margin="10dp"
-        />
+        android:text=""
+        android:textSize="26dp" />
+
+    <Button
+        android:id="@+id/reloadButton"
+        android:layout_width="match_parent"
+        android:layout_height="143dp"
+        android:layout_below="@+id/text_display"
+        android:layout_marginTop="10dp"
+        android:text="Recommencer" />
+
+
 
 </RelativeLayout>
