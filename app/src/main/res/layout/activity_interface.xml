@@ -10,24 +10,35 @@
         android:id="@+id/camera"
         android:keepScreenOn="true"
         android:layout_width="match_parent"
-        android:layout_height="500dp" />
+        android:layout_height="match_parent" >
 
-    <TextView
-        android:id="@+id/text_display"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:layout_below="@+id/camera"
-        android:textSize="26dp"
-        android:maxLines="5"
-        android:layout_margin="10dp"
-        />
 
-    <ImageView
-        android:id="@+id/image_view"
-        android:layout_below="@+id/text_display"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:keepScreenOn="true" />
+    </com.otaliastudios.cameraview.CameraView>
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_alignEnd="@id/camera"
+        android:layout_centerHorizontal="false"
+        android:layout_marginTop="500dp"
+        android:layout_marginEnd="50dp"
+        android:textSize="19sp"
+        android:background="#FFDD33"
+        android:textColor="#5A3B5D"
+        tools:text="LISTE" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_centerHorizontal="false"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="500dp"
+        android:background="#5A3B5D"
+        android:textColor="#FFDD33"
+        android:textSize="19sp"
+        tools:text="SCAN" />
+
 
 </RelativeLayout>

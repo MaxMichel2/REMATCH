@@ -44,7 +44,6 @@ import java.util.Locale;
 public class InterfaceActivity extends AppCompatActivity {
     private ImageView imageView;
     private TextView textView;
-    static final int REQUEST_IMAGE_CAPTURE = 1;
     private Bitmap imageBitmap;
 
     private TextToSpeech tts;
