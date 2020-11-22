@@ -139,10 +139,11 @@ public class MainActivity extends AppCompatActivity {
 
 
         CameraView camera = findViewById(R.id.camera);
-        listButton.setBackgroundColor(Color.parseColor("#5A3B5D"));
-        listButton.setText("SCAN");
-        listButton.setTextColor(Color.parseColor("#FFDD33"));
+
         scanButton = findViewById(R.id.button);
+        scanButton.setBackgroundColor(Color.parseColor("#5A3B5D"));
+        scanButton.setText("SCAN");
+        scanButton.setTextColor(Color.parseColor("#FFDD33"));
 
         listButton = findViewById(R.id.button2);
         listButton.setBackgroundColor(Color.parseColor("#FFDD33"));
