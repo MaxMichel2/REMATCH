@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">Around Me</string>
-    <string name="google_map_key">/*** GOOGLE API KEY HERE ***/</string>
+    <string name="google_map_key">AIzaSyBnqYDVKOTesvRZqh__UXMMORlkCZCcmOo</string>
 </resources>

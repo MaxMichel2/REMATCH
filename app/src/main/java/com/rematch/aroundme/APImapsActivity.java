@@ -62,7 +62,7 @@ public class APImapsActivity extends AppCompatActivity {
     Button btRestaurant;
 
 
-    TextView textView;
+    //TextView textView;
     SupportMapFragment supportMapFragment;
     GoogleMap map;
     AlertDialog.Builder builder;
@@ -111,8 +111,8 @@ public class APImapsActivity extends AppCompatActivity {
         btRestaurant = findViewById(R.id.buttonRestaurant);
         btRestaurant.setBackgroundColor(Color.parseColor("#FFDD33"));
 
-        //supportMapFragment = (SupportMapFragment) getSupportFragmentManager()
-                //.findFragmentById(R.id.google_map);
+        supportMapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.google_map);
 
         // Initialise fused location provider client
         client = LocationServices.getFusedLocationProviderClient(this);
@@ -470,7 +470,7 @@ public class APImapsActivity extends AppCompatActivity {
                 list_values = list_values + "\n" + text;
             }
 
-            textView.setText(list_values);
+            //textView.setText(list_values);
 
             /**
             Context context = getApplicationContext();
