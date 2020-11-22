@@ -8,39 +8,54 @@
     android:orientation="vertical"
     tools:context=".APImapsActivity">
 
-    <LinearLayout
+    <Button
+        android:id="@+id/buttonStore"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="8dp">
-
-        <Spinner
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:id="@+id/sp_type"
-            android:background="@android:drawable/editbox_background"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/bt_find"
-            android:background="@android:color/holo_orange_light"
-            android:text="Find"/>
-
-
-    </LinearLayout>
-
-    <fragment
-        android:id="@+id/google_map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_height="110dp"
+        android:text="Magasins"
+        android:background="#5A3B5D"
+        android:textColor="#FFDD33"/>
+    <Button
+        android:id="@+id/buttonRestaurant"
         android:layout_width="match_parent"
-        android:layout_height="472dp" />
+        android:layout_height="110dp"
+        android:text="Restaurants"
+        android:background="#FFDD33"
+        android:textColor="#5A3B5D"/>
 
-    <TextView
-        android:id="@+id/text_view"
+
+    <Button
+        android:id="@+id/buttonMovieTheater"
         android:layout_width="match_parent"
-        android:layout_height="131dp"
-        android:text="TextView" />
+        android:layout_height="110dp"
+        android:text="Cinémas/Théâtres"
+        android:background="#5A3B5D"
+        android:textColor="#FFDD33"/>
+
+    <Button
+        android:id="@+id/buttonHospital"
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:text="Hôpitaux"
+        android:background="#FFDD33"
+        android:textColor="#5A3B5D"/>
+
+    <Button
+        android:id="@+id/buttonBank"
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:text="Banques"
+        android:background="#5A3B5D"
+        android:textColor="#FFDD33"/>
+
+    <Button
+        android:id="@+id/buttonATM"
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:text="Distributeurs"
+        android:background="#FFDD33"
+        android:textColor="#5A3B5D"/>
+
+
 
 </LinearLayout>

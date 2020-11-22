@@ -9,6 +9,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -52,7 +53,15 @@ import javax.net.ssl.HttpsURLConnection;
 public class APImapsActivity extends AppCompatActivity {
     // Initialise variable
     Spinner spType;
-    Button btFind;
+    //Button btFind;
+    Button btStore;
+    Button btBank;
+    Button btATM;
+    Button btHospital;
+    Button btMovie;
+    Button btRestaurant;
+
+
     TextView textView;
     SupportMapFragment supportMapFragment;
     GoogleMap map;
@@ -85,25 +94,33 @@ public class APImapsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_a_p_imaps);
 
         // Assign variable
-        textView = findViewById(R.id.text_view);
-        spType = findViewById(R.id.sp_type);
-        btFind = findViewById(R.id.bt_find);
-        supportMapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.google_map);
+        //textView = findViewById(R.id.text_view);
+        //spType = findViewById(R.id.sp_type);
+        //btFind = findViewById(R.id.bt_find);
+
+        btStore = findViewById(R.id.buttonStore);
+        btBank = findViewById(R.id.buttonBank);
+        btATM = findViewById(R.id.buttonATM);
+        btHospital = findViewById(R.id.buttonHospital);
+        btMovie = findViewById(R.id.buttonMovieTheater);
+        btRestaurant = findViewById(R.id.buttonRestaurant);
+
+        //supportMapFragment = (SupportMapFragment) getSupportFragmentManager()
+                //.findFragmentById(R.id.google_map);
 
         // Initialise fused location provider client
         client = LocationServices.getFusedLocationProviderClient(this);
 
         builder= new AlertDialog.Builder(this);
         // Initialise array of place type
-        final String[] placeTypeList = {"atm", "bank", "hospital", "movie_theater", "restaurant"};
+        //final String[] placeTypeList = {"atm", "bank", "hospital", "movie_theater", "restaurant", "store"};
         // Initialise array of place names
-        String[] placeNameList = {"ATM", "Bank", "Hospital", "Movie Theater", "Restaurant"};
+        //String[] placeNameList = {"ATM", "Bank", "Hospital", "Movie Theater", "Restaurant", "Store"};
 
         // Set adapter for Spinner
-        spType.setAdapter(new ArrayAdapter<String>(APImapsActivity.this
-                , android.R.layout.simple_spinner_dropdown_item, placeNameList));
-
+        //spType.setAdapter(new ArrayAdapter<String>(APImapsActivity.this
+                //, android.R.layout.simple_spinner_dropdown_item, placeNameList));
+        /*
         btFind.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,6 +145,171 @@ public class APImapsActivity extends AppCompatActivity {
                 if (status != TextToSpeech.ERROR) {
                     tts.setLanguage(Locale.FRANCE);
                 }
+            }
+        });
+
+        */
+
+        btATM.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                // Get selected position of spinner
+                // Initialize url
+                String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json" + //Url
+                        "?location=" + currentLat + "," + currentLong + //Location latitude and longitude
+                        "&radius=500" + //Nearby radius
+                        "&types=" + "ATM" +
+                        "&sensor=true" + //sensor
+                        "&key=" + getResources().getString(R.string.google_map_key); //Google map key
+
+                // Execute place task method to download json data
+                new APImapsActivity.PlaceTask().execute(url);
+
+                tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+                    @Override
+                    public void onInit(int status) {
+                        if (status != TextToSpeech.ERROR) {
+                            tts.setLanguage(Locale.FRANCE);
+                        }
+                    }
+                });
+            }
+        });
+        btStore.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                // Get selected position of spinner
+                // Initialize url
+                String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json" + //Url
+                        "?location=" + currentLat + "," + currentLong + //Location latitude and longitude
+                        "&radius=500" + //Nearby radius
+                        "&types=" + "store" +
+                        "&sensor=true" + //sensor
+                        "&key=" + getResources().getString(R.string.google_map_key); //Google map key
+
+                // Execute place task method to download json data
+                new APImapsActivity.PlaceTask().execute(url);
+
+                tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+                    @Override
+                    public void onInit(int status) {
+                        if (status != TextToSpeech.ERROR) {
+                            tts.setLanguage(Locale.FRANCE);
+                        }
+                    }
+                });
+            }
+        });
+        btHospital.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                // Get selected position of spinner
+                // Initialize url
+                String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json" + //Url
+                        "?location=" + currentLat + "," + currentLong + //Location latitude and longitude
+                        "&radius=500" + //Nearby radius
+                        "&types=" + "hospital" +
+                        "&sensor=true" + //sensor
+                        "&key=" + getResources().getString(R.string.google_map_key); //Google map key
+
+                // Execute place task method to download json data
+                new APImapsActivity.PlaceTask().execute(url);
+
+                tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+                    @Override
+                    public void onInit(int status) {
+                        if (status != TextToSpeech.ERROR) {
+                            tts.setLanguage(Locale.FRANCE);
+                        }
+                    }
+                });
+            }
+        });
+        btRestaurant.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                // Get selected position of spinner
+                // Initialize url
+                String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json" + //Url
+                        "?location=" + currentLat + "," + currentLong + //Location latitude and longitude
+                        "&radius=500" + //Nearby radius
+                        "&types=" + "restaurant" +
+                        "&sensor=true" + //sensor
+                        "&key=" + getResources().getString(R.string.google_map_key); //Google map key
+
+                // Execute place task method to download json data
+                new APImapsActivity.PlaceTask().execute(url);
+
+                tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+                    @Override
+                    public void onInit(int status) {
+                        if (status != TextToSpeech.ERROR) {
+                            tts.setLanguage(Locale.FRANCE);
+                        }
+                    }
+                });
+            }
+        });
+        btMovie.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                // Get selected position of spinner
+                // Initialize url
+                String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json" + //Url
+                        "?location=" + currentLat + "," + currentLong + //Location latitude and longitude
+                        "&radius=500" + //Nearby radius
+                        "&types=" + "movie_theater" +
+                        "&sensor=true" + //sensor
+                        "&key=" + getResources().getString(R.string.google_map_key); //Google map key
+
+                // Execute place task method to download json data
+                new APImapsActivity.PlaceTask().execute(url);
+
+                tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+                    @Override
+                    public void onInit(int status) {
+                        if (status != TextToSpeech.ERROR) {
+                            tts.setLanguage(Locale.FRANCE);
+                        }
+                    }
+                });
+            }
+        });
+        btBank.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                // Get selected position of spinner
+                // Initialize url
+                String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json" + //Url
+                        "?location=" + currentLat + "," + currentLong + //Location latitude and longitude
+                        "&radius=500" + //Nearby radius
+                        "&types=" + "bank" +
+                        "&sensor=true" + //sensor
+                        "&key=" + getResources().getString(R.string.google_map_key); //Google map key
+
+                // Execute place task method to download json data
+                new APImapsActivity.PlaceTask().execute(url);
+
+                tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+                    @Override
+                    public void onInit(int status) {
+                        if (status != TextToSpeech.ERROR) {
+                            tts.setLanguage(Locale.FRANCE);
+                        }
+                    }
+                });
             }
         });
 
