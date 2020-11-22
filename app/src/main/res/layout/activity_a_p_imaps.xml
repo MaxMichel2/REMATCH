@@ -13,14 +13,12 @@
         android:layout_width="match_parent"
         android:layout_height="110dp"
         android:text="Magasins"
-        android:background="#5A3B5D"
         android:textColor="#FFDD33"/>
     <Button
         android:id="@+id/buttonRestaurant"
         android:layout_width="match_parent"
         android:layout_height="110dp"
         android:text="Restaurants"
-        android:background="#FFDD33"
         android:textColor="#5A3B5D"/>
 
 
@@ -29,7 +27,6 @@
         android:layout_width="match_parent"
         android:layout_height="110dp"
         android:text="Cinémas/Théâtres"
-        android:background="#5A3B5D"
         android:textColor="#FFDD33"/>
 
     <Button
@@ -37,7 +34,6 @@
         android:layout_width="match_parent"
         android:layout_height="110dp"
         android:text="Hôpitaux"
-        android:background="#FFDD33"
         android:textColor="#5A3B5D"/>
 
     <Button
@@ -45,7 +41,6 @@
         android:layout_width="match_parent"
         android:layout_height="110dp"
         android:text="Banques"
-        android:background="#5A3B5D"
         android:textColor="#FFDD33"/>
 
     <Button
@@ -53,7 +48,6 @@
         android:layout_width="match_parent"
         android:layout_height="110dp"
         android:text="Distributeurs"
-        android:background="#FFDD33"
         android:textColor="#5A3B5D"/>
 
 

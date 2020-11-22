@@ -99,11 +99,17 @@ public class APImapsActivity extends AppCompatActivity {
         //btFind = findViewById(R.id.bt_find);
 
         btStore = findViewById(R.id.buttonStore);
+        btStore.setBackgroundColor(Color.parseColor("#5A3B5D"));
         btBank = findViewById(R.id.buttonBank);
+        btBank.setBackgroundColor(Color.parseColor("#5A3B5D"));
         btATM = findViewById(R.id.buttonATM);
+        btATM.setBackgroundColor(Color.parseColor("#FFDD33"));
         btHospital = findViewById(R.id.buttonHospital);
+        btHospital.setBackgroundColor(Color.parseColor("#FFDD33"));
         btMovie = findViewById(R.id.buttonMovieTheater);
+        btMovie.setBackgroundColor(Color.parseColor("#5A3B5D"));
         btRestaurant = findViewById(R.id.buttonRestaurant);
+        btRestaurant.setBackgroundColor(Color.parseColor("#FFDD33"));
 
         //supportMapFragment = (SupportMapFragment) getSupportFragmentManager()
                 //.findFragmentById(R.id.google_map);
