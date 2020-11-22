@@ -38,7 +38,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -127,9 +129,9 @@ public class MainActivity extends AppCompatActivity {
     private Button scanButton;
     private Button listButton;
     private Bitmap imageBitmap;
-    private Boolean firsttime=true;
+    //private Boolean firsttime=true;
+    //private ArrayList<String> alreadySaid= new ArrayList<String> ;
     private TextToSpeech tts;
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -155,6 +157,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status != TextToSpeech.ERROR) {
+                    tts.setLanguage(Locale.FRANCE);
+                }
+            }
+        });
         camera.setLifecycleOwner(this);
 
         camera.addFrameProcessor(new FrameProcessor() {
@@ -170,14 +181,16 @@ public class MainActivity extends AppCompatActivity {
 
                     imageBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
                     imageBitmap = RotateBitmap(imageBitmap, 90);
+
                     scanButton.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) {
                             detectTextFromImage();
                         }
                     });
-
-                    /**if (firsttime==true) {
+/**
+                    if (firsttime==true) {
                         firsttime=false;
+                        Log.d("test","on est dans le false");
                         detectTextFromImage();
                     }
                     else {
@@ -188,7 +201,8 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }, 5000);   //5 seconds
 
-                    }**/
+                    }
+ **/
                 } else if (frame.getDataClass() == Image.class) {
                     Image data = frame.getData();
                     System.out.println("Data Bonjour");
@@ -197,14 +211,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if (status != TextToSpeech.ERROR) {
-                    tts.setLanguage(Locale.FRANCE);
-                }
-            }
-        });
     }
     public static Bitmap RotateBitmap(Bitmap source, float angle)
     {
@@ -243,6 +249,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else {
             for (FirebaseVisionText.Block block : firebaseVisionText.getBlocks()){
+                // if text is like lasttext dont speak else speak
                 String text = block.getText();
                 tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
             }
