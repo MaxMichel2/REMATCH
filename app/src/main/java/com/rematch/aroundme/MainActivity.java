@@ -140,8 +140,21 @@ public class MainActivity extends AppCompatActivity {
 
         CameraView camera = findViewById(R.id.camera);
         scanButton = findViewById(R.id.button);
+        scanButton.setOnClickListener(new View.OnClickListener() {
+                                          public void onClick(View v) {
+                                            detectTextFromImage();
+                                          }
+                                      });
         listButton = findViewById(R.id.button2);
         listButton.setBackgroundColor(Color.parseColor("#FFDD33"));
+        listButton.setText("LISTE");
+        listButton.setTextColor(Color.parseColor("#5A3B5D"));
+        listButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent= new Intent(MainActivity.this, APImapsActivity.class);
+                startActivity(intent);
+            }
+        });
         camera.setLifecycleOwner(this);
 
         camera.addFrameProcessor(new FrameProcessor() {
@@ -158,9 +171,9 @@ public class MainActivity extends AppCompatActivity {
                     imageBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
                     imageBitmap = RotateBitmap(imageBitmap, 90);
 
-                    if (firsttime==true) {
-                        detectTextFromImage();
+                    /**if (firsttime==true) {
                         firsttime=false;
+                        detectTextFromImage();
                     }
                     else {
                         Handler handler = new Handler();
@@ -170,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }, 5000);   //5 seconds
 
-                    }
+                    }**/
                 } else if (frame.getDataClass() == Image.class) {
                     Image data = frame.getData();
                     System.out.println("Data Bonjour");
