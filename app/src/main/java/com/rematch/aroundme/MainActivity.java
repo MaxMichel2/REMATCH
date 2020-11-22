@@ -139,12 +139,10 @@ public class MainActivity extends AppCompatActivity {
 
 
         CameraView camera = findViewById(R.id.camera);
+        listButton.setBackgroundColor(Color.parseColor("#5A3B5D"));
+        listButton.setText("SCAN");
+        listButton.setTextColor(Color.parseColor("#FFDD33"));
         scanButton = findViewById(R.id.button);
-        scanButton.setOnClickListener(new View.OnClickListener() {
-                                          public void onClick(View v) {
-                                            detectTextFromImage();
-                                          }
-                                      });
         listButton = findViewById(R.id.button2);
         listButton.setBackgroundColor(Color.parseColor("#FFDD33"));
         listButton.setText("LISTE");
@@ -170,6 +168,12 @@ public class MainActivity extends AppCompatActivity {
 
                     imageBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
                     imageBitmap = RotateBitmap(imageBitmap, 90);
+
+                    scanButton.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            detectTextFromImage();
+                        }
+                    });
 
                     /**if (firsttime==true) {
                         firsttime=false;
@@ -201,6 +205,11 @@ public class MainActivity extends AppCompatActivity {
         return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
     }
 
+    private void historyOfWords()
+    {
+        //if a word is already in the hif you must hold the Frame instance longer, use frame = frame.freeze() to get a frozen instance that will not be affected.istory don't use detecttextfromimage againif you must hold the Frame instance longer, use frame = frame.freeze() to get a frozen instance that will not be affected.
+
+    }
     private void detectTextFromImage()
     {
         FirebaseVisionImage firebaseVisionImage = FirebaseVisionImage.fromBitmap(imageBitmap);
