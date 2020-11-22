@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
     private Button listButton;
     private Bitmap imageBitmap;
     private Boolean firsttime=true;
-
+    private TextToSpeech tts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -143,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
         listButton.setText("SCAN");
         listButton.setTextColor(Color.parseColor("#FFDD33"));
         scanButton = findViewById(R.id.button);
+
         listButton = findViewById(R.id.button2);
         listButton.setBackgroundColor(Color.parseColor("#FFDD33"));
         listButton.setText("LISTE");
@@ -168,7 +169,6 @@ public class MainActivity extends AppCompatActivity {
 
                     imageBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
                     imageBitmap = RotateBitmap(imageBitmap, 90);
-
                     scanButton.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) {
                             detectTextFromImage();
@@ -196,7 +196,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status != TextToSpeech.ERROR) {
+                    tts.setLanguage(Locale.FRANCE);
+                }
+            }
+        });
     }
     public static Bitmap RotateBitmap(Bitmap source, float angle)
     {
@@ -205,11 +212,6 @@ public class MainActivity extends AppCompatActivity {
         return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
     }
 
-    private void historyOfWords()
-    {
-        //if a word is already in the hif you must hold the Frame instance longer, use frame = frame.freeze() to get a frozen instance that will not be affected.istory don't use detecttextfromimage againif you must hold the Frame instance longer, use frame = frame.freeze() to get a frozen instance that will not be affected.
-
-    }
     private void detectTextFromImage()
     {
         FirebaseVisionImage firebaseVisionImage = FirebaseVisionImage.fromBitmap(imageBitmap);
@@ -241,6 +243,7 @@ public class MainActivity extends AppCompatActivity {
         else {
             for (FirebaseVisionText.Block block : firebaseVisionText.getBlocks()){
                 String text = block.getText();
+                tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
             }
 
         }
