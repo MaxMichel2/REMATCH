@@ -8,9 +8,11 @@ import android.Manifest;
 import android.content.AsyncQueryHandler;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -122,7 +124,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
      */
+    private Button scanButton;
+    private Button listButton;
     private Bitmap imageBitmap;
+    private Boolean firsttime=true;
 
 
     @Override
@@ -134,6 +139,9 @@ public class MainActivity extends AppCompatActivity {
 
 
         CameraView camera = findViewById(R.id.camera);
+        scanButton = findViewById(R.id.button);
+        listButton = findViewById(R.id.button2);
+        listButton.setBackgroundColor(Color.parseColor("#FFDD33"));
         camera.setLifecycleOwner(this);
 
         camera.addFrameProcessor(new FrameProcessor() {
@@ -150,9 +158,19 @@ public class MainActivity extends AppCompatActivity {
                     imageBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
                     imageBitmap = RotateBitmap(imageBitmap, 90);
 
-                    detectTextFromImage();
+                    if (firsttime==true) {
+                        detectTextFromImage();
+                        firsttime=false;
+                    }
+                    else {
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            public void run() {
+                                detectTextFromImage();
+                            }
+                        }, 5000);   //5 seconds
 
-
+                    }
                 } else if (frame.getDataClass() == Image.class) {
                     Image data = frame.getData();
                     System.out.println("Data Bonjour");

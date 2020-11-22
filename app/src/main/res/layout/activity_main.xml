@@ -10,10 +10,7 @@
         android:id="@+id/camera"
         android:keepScreenOn="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
-
-    </com.otaliastudios.cameraview.CameraView>
+        android:layout_height="match_parent" />
 
     <Button
         android:id="@+id/button2"
