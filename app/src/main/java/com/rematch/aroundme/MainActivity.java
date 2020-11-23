@@ -13,6 +13,8 @@ import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
+import android.os.SystemClock;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -86,6 +88,8 @@ import com.otaliastudios.cameraview.size.Size;
 import java.io.ByteArrayOutputStream;
 import java.util.List;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
     // Initialise variable
@@ -129,8 +133,8 @@ public class MainActivity extends AppCompatActivity {
     private Button scanButton;
     private Button listButton;
     private Bitmap imageBitmap;
-    //private Boolean firsttime=true;
-    //private ArrayList<String> alreadySaid= new ArrayList<String> ;
+    private Boolean firsttime=true;
+    private ArrayList<String> listalreadySaid= new ArrayList<String>();
     private TextToSpeech tts;
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -141,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         CameraView camera = findViewById(R.id.camera);
+        listalreadySaid.add("");
 
         scanButton = findViewById(R.id.button);
         scanButton.setBackgroundColor(Color.parseColor("#5A3B5D"));
@@ -181,28 +186,37 @@ public class MainActivity extends AppCompatActivity {
 
                     imageBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
                     imageBitmap = RotateBitmap(imageBitmap, 90);
-
+                    detectTextFromImage();
+                    SystemClock.sleep(3000); // Sleep 5 seconds
                     scanButton.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) {
                             detectTextFromImage();
                         }
                     });
-/**
-                    if (firsttime==true) {
+
+
+/**                    if (firsttime==true) {
                         firsttime=false;
                         Log.d("test","on est dans le false");
                         detectTextFromImage();
                     }
                     else {
-                        Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
+                        final Handler handler = new Handler();
+                        Timer t = new Timer();
+                        t.schedule(new TimerTask() {
                             public void run() {
-                                detectTextFromImage();
+                                handler.post(new Runnable() {
+                                    public void run() {
+                                        detectTextFromImage();
+                                    }
+                                });
                             }
-                        }, 5000);   //5 seconds
+                        }, 5000);
+ }
 
-                    }
- **/
+**/
+
+
                 } else if (frame.getDataClass() == Image.class) {
                     Image data = frame.getData();
                     System.out.println("Data Bonjour");
@@ -248,10 +262,14 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "No text found in Image.", Toast.LENGTH_SHORT).show();
         }
         else {
-            for (FirebaseVisionText.Block block : firebaseVisionText.getBlocks()){
-                // if text is like lasttext dont speak else speak
+            for (FirebaseVisionText.Block block : firebaseVisionText.getBlocks()) {
                 String text = block.getText();
-                tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+                // if text is like the last text dont speak
+                if (listalreadySaid.get(listalreadySaid.size() - 1) != text) {
+                    listalreadySaid.add(text);
+                    Log.d("listal", String.valueOf(listalreadySaid));
+                    tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+                }
             }
 
         }
