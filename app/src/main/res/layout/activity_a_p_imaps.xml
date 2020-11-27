@@ -23,13 +23,15 @@
         android:layout_width="match_parent"
         android:layout_height="110dp"
         android:text="Magasins"
-        android:textColor="#FFDD33"/>
+        android:textColor="#FFDD33"
+        android:textSize="40sp"/>
     <Button
         android:id="@+id/buttonRestaurant"
         android:layout_width="match_parent"
         android:layout_height="110dp"
         android:text="Restaurants"
-        android:textColor="#5A3B5D"/>
+        android:textColor="#5A3B5D"
+        android:textSize="40sp"/>
 
 
     <Button
@@ -37,35 +39,32 @@
         android:layout_width="match_parent"
         android:layout_height="110dp"
         android:text="Cinémas/Théâtres"
-        android:textColor="#FFDD33"/>
+        android:textColor="#FFDD33"
+        android:textSize="40sp"/>
 
     <Button
         android:id="@+id/buttonHospital"
         android:layout_width="match_parent"
         android:layout_height="110dp"
         android:text="Hôpitaux"
-        android:textColor="#5A3B5D"/>
+        android:textColor="#5A3B5D"
+        android:textSize="40sp"/>
 
     <Button
         android:id="@+id/buttonBank"
         android:layout_width="match_parent"
         android:layout_height="110dp"
         android:text="Banques"
-        android:textColor="#FFDD33"/>
+        android:textColor="#FFDD33"
+        android:textSize="40sp"/>
 
     <Button
         android:id="@+id/buttonATM"
         android:layout_width="match_parent"
         android:layout_height="110dp"
         android:text="Distributeurs"
-        android:textColor="#5A3B5D"/>
-
-    <fragment
-        android:id="@+id/google_map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"/>
+        android:textColor="#5A3B5D"
+        android:textSize="40sp"/>
 
 
     </LinearLayout>

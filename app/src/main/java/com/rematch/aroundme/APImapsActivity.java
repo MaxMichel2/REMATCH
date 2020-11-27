@@ -78,7 +78,6 @@ public class APImapsActivity extends AppCompatActivity {
 
     //TextView textView;
     SupportMapFragment supportMapFragment;
-    GoogleMap map;
     AlertDialog.Builder builder;
 
     // Partie Places
@@ -98,15 +97,6 @@ public class APImapsActivity extends AppCompatActivity {
                 Log.d(TAG, "onLocationResults: " + location.toString());
                 currentLat = location.getLatitude();
                 currentLong = location.getLongitude();
-                supportMapFragment.getMapAsync(new OnMapReadyCallback() {
-                    @Override
-                    public void onMapReady(GoogleMap googleMap) {
-                        // When map is ready
-                        map = googleMap;
-                        // Zoom current location on map
-                        map.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(currentLat, currentLong)));
-                    }
-                });
             }
         }
     };
@@ -118,11 +108,6 @@ public class APImapsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_a_p_imaps);
-
-        // Assign variable
-        //textView = findViewById(R.id.text_view);
-        //spType = findViewById(R.id.sp_type);
-        //btFind = findViewById(R.id.bt_find);
 
         btStore = findViewById(R.id.buttonStore);
         btStore.setBackgroundColor(Color.parseColor("#5A3B5D"));
@@ -136,9 +121,6 @@ public class APImapsActivity extends AppCompatActivity {
         btMovie.setBackgroundColor(Color.parseColor("#5A3B5D"));
         btRestaurant = findViewById(R.id.buttonRestaurant);
         btRestaurant.setBackgroundColor(Color.parseColor("#FFDD33"));
-
-        supportMapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.google_map);
 
         // Initialise fused location provider client
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
@@ -515,9 +497,6 @@ public class APImapsActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(List<HashMap<String, String>> hashMaps) {
-
-            // Clear map
-            map.clear();
             // Use for loop
             String results = "";
             for(int i=0; i<hashMaps.size(); i++){
@@ -531,14 +510,6 @@ public class APImapsActivity extends AppCompatActivity {
                 String name = hashMapList.get("name");
 //                //Concat latitude and longitude
                 LatLng latLng = new LatLng(lat, lng);
-                // Initialize marker options
-                MarkerOptions options = new MarkerOptions();
-                // Set position
-                options.position(latLng);
-                // Set title
-                options.title(name);
-                // Add marker on map
-                map.addMarker(options);
 
                 results += name + "\n" + latLng.toString() +"\n\n";
             }
