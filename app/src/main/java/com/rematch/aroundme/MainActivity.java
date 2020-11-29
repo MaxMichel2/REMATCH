@@ -92,44 +92,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
-    // Initialise variable
-    //private Button buttonImage;
-    //private Button buttonMaps;
 
-
-    /*
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        buttonImage = findViewById(R.id.image_detection_btn);
-        buttonMaps = findViewById(R.id.api_maps);
-        buttonMaps.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openMapsActivity();
-            }
-        });
-        buttonImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openImageActivity();
-            }
-        });
-    }
-
-    public void openImageActivity()
-    {
-        Intent intent = new Intent(this, InterfaceActivity.class);
-        startActivity(intent);
-    }
-    public void openMapsActivity()
-    {
-        Intent intent = new Intent(this, APImapsActivity.class);
-        startActivity(intent);
-    }
-
-     */
     private Button scanButton;
     private Button listButton;
     private Bitmap imageBitmap;
@@ -193,30 +156,6 @@ public class MainActivity extends AppCompatActivity {
                             detectTextFromImage();
                         }
                     });
-
-
-/**                    if (firsttime==true) {
-                        firsttime=false;
-                        Log.d("test","on est dans le false");
-                        detectTextFromImage();
-                    }
-                    else {
-                        final Handler handler = new Handler();
-                        Timer t = new Timer();
-                        t.schedule(new TimerTask() {
-                            public void run() {
-                                handler.post(new Runnable() {
-                                    public void run() {
-                                        detectTextFromImage();
-                                    }
-                                });
-                            }
-                        }, 5000);
- }
-
-**/
-
-
                 } else if (frame.getDataClass() == Image.class) {
                     Image data = frame.getData();
                     System.out.println("Data Bonjour");
