@@ -1,50 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="MENU PRINCIPAL"
-        android:textSize="40sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+    <com.otaliastudios.cameraview.CameraView
+        android:id="@+id/camera"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:keepScreenOn="true">
+
+    </com.otaliastudios.cameraview.CameraView>
+
+
 
     <Button
-        android:id="@+id/image_detection_btn"
-        android:layout_width="256dp"
-        android:layout_height="168dp"
-        android:layout_marginTop="68dp"
-        android:background="@android:color/holo_blue_dark"
-        android:text="Prendre en photo un magasin"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@+id/tv"
-        app:layout_constraintStart_toStartOf="@+id/tv"
-        app:layout_constraintTop_toBottomOf="@+id/tv" />
+        android:id="@+id/button"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginBottom="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="#5A3B5D"
+        android:textColor="#FFDD33"
+        android:textSize="38sp"
+        tools:text="SCAN" />
 
     <Button
-        android:id="@+id/api_maps"
-        android:layout_width="256dp"
-        android:layout_height="168dp"
-        android:layout_marginTop="116dp"
-        android:background="@android:color/holo_orange_light"
-        android:text="Voir magasins autour"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/image_detection_btn"
-
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/image_detection_btn"
-        app:layout_constraintTop_toBottomOf="@+id/image_detection_btn"
-        app:layout_constraintVertical_bias="0.0" />
+        android:id="@+id/button2"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:background="#FFDD33"
+        android:textColor="#5A3B5D"
+        android:textSize="38sp"
+        tools:text="LISTE" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</RelativeLayout>
