@@ -274,4 +274,32 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
+    private String matchNearbyPlace(String[] nearby, String detected)
+    {
+        int i = 0;
+        int maxScore = 0;
+        int maxScoreIndex = 0;
+        // Pour chaque nom de lieu aux alentours
+        for(String name:nearby) {
+            int score = 0;
+            // Compter le nombre de lettres similaires
+            for (char c : detected.toCharArray()) {
+                if (name.contains(String.valueOf(c))) {
+                    score += 1;
+                }
+            }
+            if(score > maxScore){
+                maxScore = score;
+                maxScoreIndex = i;
+            }
+            i++;
+        }
+        // Si au moins une lettre a été trouvée on renvoie le nom du lieu qui a le meilleur score
+        if(maxScore != 0){
+            return nearby[maxScoreIndex];
+        } else {
+            return "";
+        }
+    }
 }
