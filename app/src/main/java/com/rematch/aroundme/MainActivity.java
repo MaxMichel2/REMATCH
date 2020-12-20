@@ -18,6 +18,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Looper;
 import android.os.SystemClock;
+import android.renderscript.ScriptGroup;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
@@ -57,11 +58,13 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Array;
 import java.net.URL;
+import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -297,7 +300,7 @@ public class MainActivity extends AppCompatActivity {
         else {
             for (FirebaseVisionText.Block block : firebaseVisionText.getBlocks()) {
                 String text = block.getText();
-                System.out.println("texte trouvé : " + text);
+                Log.d("TEXTE TROUVE", text);
                 String matchingPlace;
                 // If the app found nearby points of interests :
                 if(!nearbyPlaces.isEmpty()){
@@ -319,30 +322,78 @@ public class MainActivity extends AppCompatActivity {
     private String matchNearbyPlace(ArrayList<String> nearby, String detected)
     {
         int i = 0;
-        int maxScore = 0;
+        double maxScore = 0;
         int maxScoreIndex = 0;
+        detected = detected.toLowerCase();
         // Pour chaque nom de lieu aux alentours
         for(String name:nearby) {
-            int score = 0;
+            name = name.toLowerCase();
+            double score = 0.0;
             // Compter le nombre de lettres similaires
             for (char c : detected.toCharArray()) {
                 if (name.contains(String.valueOf(c))) {
                     score += 1;
                 }
             }
+            // On pondère par la longueur du nom
+            score = score / Math.sqrt(name.length());
+            // Reconnaissance de mots français
+            try {
+                // On lit le dico fr
+                ArrayList<String> dictionnaireFr = readWordList();
+                // On récupère les mots détectés
+                String[] detectedWords = detected.split(" ");
+                // Pour chaque mot détecté, regarder s'il existe vraiment
+                for(String wordInDetected:detectedWords){
+                    // peut-être, ici, assouplir avec une acceptation du mot si la distance de levenstein est < 1 ou 2
+                    if(dictionnaireFr.contains(wordInDetected)){
+                        // gestion des mots qui existent
+                        // Si le mot est francais et apparait dans
+                        for(String wordInName:name.split(" ")){
+                            if(wordInDetected.equals(wordInName)){
+                                // Formule pour limiter l'impact des tous petits mots (de, par, a, etc)
+                                score += 5 + wordInDetected.length();
+                            }
+                        }
+                        // requete sur API google avec mot clef
+                        // Boost du score si ça match avec le nom d'un magasin
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            System.out.println(name + " " + score);
             if(score > maxScore){
                 maxScore = score;
                 maxScoreIndex = i;
-                System.out.println("New best name : " + name + String.valueOf(score));
+                System.out.println("New best name : " + name + " " + String.valueOf(score));
             }
             i++;
         }
         // Si au moins une lettre a été trouvée on renvoie le nom du lieu qui a le meilleur score
+        // Peut-être : remplacer par <5 pour ne pas dire des conneries
         if(maxScore != 0){
             return nearby.get(maxScoreIndex);
         } else {
             return "";
         }
+    }
+
+    private ArrayList<String> readWordList() throws IOException{
+        ArrayList<String> list = new ArrayList<String>();
+        String word = "";
+        InputStream file = this.getResources().openRawResource(R.raw.liste_francais_utf8);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(file));
+        while(true) {
+            try {
+                if ((word = reader.readLine()) == null) break;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            list.add(word);
+        }
+        file.close();
+        return list;
     }
 
     // Task to download the JSON data from google and return it as a String
