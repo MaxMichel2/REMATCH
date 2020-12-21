@@ -131,6 +131,14 @@ public class APImapsActivity extends AppCompatActivity {
 
         builder= new AlertDialog.Builder(this);
 
+        tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status != TextToSpeech.ERROR) {
+                    tts.setLanguage(Locale.FRANCE);
+                }
+            }
+        });
         btATM.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -147,15 +155,6 @@ public class APImapsActivity extends AppCompatActivity {
 
                 // Execute place task method to download json data
                 new APImapsActivity.PlaceTask().execute(url);
-
-                tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-                    @Override
-                    public void onInit(int status) {
-                        if (status != TextToSpeech.ERROR) {
-                            tts.setLanguage(Locale.FRANCE);
-                        }
-                    }
-                });
             }
         });
         btStore.setOnClickListener(new View.OnClickListener() {
@@ -175,14 +174,6 @@ public class APImapsActivity extends AppCompatActivity {
                 // Execute place task method to download json data
                 new APImapsActivity.PlaceTask().execute(url);
 
-                tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-                    @Override
-                    public void onInit(int status) {
-                        if (status != TextToSpeech.ERROR) {
-                            tts.setLanguage(Locale.FRANCE);
-                        }
-                    }
-                });
             }
         });
         btHospital.setOnClickListener(new View.OnClickListener() {
@@ -202,14 +193,6 @@ public class APImapsActivity extends AppCompatActivity {
                 // Execute place task method to download json data
                 new APImapsActivity.PlaceTask().execute(url);
 
-                tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-                    @Override
-                    public void onInit(int status) {
-                        if (status != TextToSpeech.ERROR) {
-                            tts.setLanguage(Locale.FRANCE);
-                        }
-                    }
-                });
             }
         });
         btRestaurant.setOnClickListener(new View.OnClickListener() {
@@ -229,14 +212,6 @@ public class APImapsActivity extends AppCompatActivity {
                 // Execute place task method to download json data
                 new APImapsActivity.PlaceTask().execute(url);
 
-                tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-                    @Override
-                    public void onInit(int status) {
-                        if (status != TextToSpeech.ERROR) {
-                            tts.setLanguage(Locale.FRANCE);
-                        }
-                    }
-                });
             }
         });
         btMovie.setOnClickListener(new View.OnClickListener() {
@@ -256,14 +231,6 @@ public class APImapsActivity extends AppCompatActivity {
                 // Execute place task method to download json data
                 new APImapsActivity.PlaceTask().execute(url);
 
-                tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-                    @Override
-                    public void onInit(int status) {
-                        if (status != TextToSpeech.ERROR) {
-                            tts.setLanguage(Locale.FRANCE);
-                        }
-                    }
-                });
             }
         });
         btBank.setOnClickListener(new View.OnClickListener() {
@@ -283,14 +250,6 @@ public class APImapsActivity extends AppCompatActivity {
                 // Execute place task method to download json data
                 new APImapsActivity.PlaceTask().execute(url);
 
-                tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-                    @Override
-                    public void onInit(int status) {
-                        if (status != TextToSpeech.ERROR) {
-                            tts.setLanguage(Locale.FRANCE);
-                        }
-                    }
-                });
             }
         });
 
@@ -329,6 +288,12 @@ public class APImapsActivity extends AppCompatActivity {
     {
         if ((keyCode == KeyEvent.KEYCODE_BACK))
         {
+            finish();
+            tts.stop();
+        } else if (keyCode == KeyEvent.KEYCODE_HOME){
+            finish();
+            tts.stop();
+        } else if (keyCode == KeyEvent.KEYCODE_MOVE_HOME){
             finish();
             tts.stop();
         }
