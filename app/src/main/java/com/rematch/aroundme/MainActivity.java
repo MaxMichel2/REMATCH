@@ -310,7 +310,7 @@ public class MainActivity extends AppCompatActivity {
 //                }
 
                 // if text is like the last text dont speak
-                if (!listalreadySaid.contains(text)) {
+                if (!listalreadySaid.subList(Math.max(0,listalreadySaid.size()-4), listalreadySaid.size()).contains(text)) {
                     listalreadySaid.add(text);
                     Log.d("listal", String.valueOf(listalreadySaid));
                     tts.speak(text, TextToSpeech.QUEUE_ADD, null);
