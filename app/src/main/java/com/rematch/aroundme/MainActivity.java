@@ -168,6 +168,7 @@ public class MainActivity extends AppCompatActivity {
                     imageBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
                     imageBitmap = RotateBitmap(imageBitmap, 90);
                     SystemClock.sleep(3000); // Sleep 5 seconds
+                    detectTextFromImage();
                     scanButton.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) {
                             detectTextFromImage();
@@ -301,18 +302,18 @@ public class MainActivity extends AppCompatActivity {
             for (FirebaseVisionText.Block block : firebaseVisionText.getBlocks()) {
                 String text = block.getText();
                 Log.d("TEXTE TROUVE", text);
-                String matchingPlace;
-                // If the app found nearby points of interests :
-                if(!nearbyPlaces.isEmpty()){
-                    // Changer le texte à dire avec le nom du lieu trouvé
-                    text = matchNearbyPlace(nearbyPlaces, text);
-                }
+//                String matchingPlace;
+//                // If the app found nearby points of interests :
+//                if(!nearbyPlaces.isEmpty()){
+//                    // Changer le texte à dire avec le nom du lieu trouvé
+//                    text = matchNearbyPlace(nearbyPlaces, text);
+//                }
 
                 // if text is like the last text dont speak
-                if (listalreadySaid.get(listalreadySaid.size() - 1) != text) {
+                if (!listalreadySaid.contains(text)) {
                     listalreadySaid.add(text);
                     Log.d("listal", String.valueOf(listalreadySaid));
-                    tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+                    tts.speak(text, TextToSpeech.QUEUE_ADD, null);
                 }
             }
 
