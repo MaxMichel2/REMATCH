@@ -21,6 +21,7 @@ import android.os.SystemClock;
 import android.renderscript.ScriptGroup;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -78,7 +79,8 @@ public class MainActivity extends AppCompatActivity {
     private Button scanButton;
     private Button listButton;
     private Bitmap imageBitmap;
-    private Boolean firsttime=true;
+    private long timer_start_speach = 0;
+    private boolean flagMatch=false;
     private ArrayList<String> listalreadySaid= new ArrayList<String>();
     private TextToSpeech tts;
     private ArrayList<String> nearbyPlaces = new ArrayList<String>();
@@ -130,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
 
         scanButton = findViewById(R.id.button);
         scanButton.setBackgroundColor(Color.parseColor("#5A3B5D"));
-        scanButton.setText("SCAN");
+        scanButton.setText("MATCH");
         scanButton.setTextColor(Color.parseColor("#FFDD33"));
 
         listButton = findViewById(R.id.button2);
@@ -159,25 +161,34 @@ public class MainActivity extends AppCompatActivity {
             @WorkerThread
             public void process(@NonNull Frame frame) {
 
-                if (frame.getDataClass() == byte[].class) {
-                    ByteArrayOutputStream out = new ByteArrayOutputStream();
-                    YuvImage yuvImage = new YuvImage((byte[]) frame.getData(), ImageFormat.NV21, frame.getSize().getWidth(), frame.getSize().getHeight(), null);
-                    yuvImage.compressToJpeg(new Rect(0, 0, frame.getSize().getWidth(), frame.getSize().getHeight()), 90, out);
-                    byte[] data = out.toByteArray();
+                // Si tts a parlé est en train de parler, on n'analyse pas l'image.
+//                if(!tts.isSpeaking()) {
+                if(System.currentTimeMillis() - 3000 > timer_start_speach || timer_start_speach == 0){
+                    if (frame.getDataClass() == byte[].class) {
+                        ByteArrayOutputStream out = new ByteArrayOutputStream();
+                        YuvImage yuvImage = new YuvImage((byte[]) frame.getData(), ImageFormat.NV21, frame.getSize().getWidth(), frame.getSize().getHeight(), null);
+                        yuvImage.compressToJpeg(new Rect(0, 0, frame.getSize().getWidth(), frame.getSize().getHeight()), 90, out);
+                        byte[] data = out.toByteArray();
 
-                    imageBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-                    imageBitmap = RotateBitmap(imageBitmap, 90);
-                    SystemClock.sleep(3000); // Sleep 5 seconds
-                    detectTextFromImage();
-                    scanButton.setOnClickListener(new View.OnClickListener() {
-                        public void onClick(View v) {
-                            detectTextFromImage();
-                        }
-                    });
-                } else if (frame.getDataClass() == Image.class) {
-                    Image data = frame.getData();
-                    System.out.println("Data Bonjour");
-                    // Process android.media.Image...
+                        imageBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                        imageBitmap = RotateBitmap(imageBitmap, 90);
+                        scanButton.setOnClickListener(new View.OnClickListener() {
+                            public void onClick(View v) {
+                                flagMatch = !flagMatch;
+                                if (flagMatch) {
+                                    scanButton.setBackgroundColor(Color.parseColor("green"));
+                                } else {
+                                    scanButton.setBackgroundColor(Color.parseColor("#5A3B5D"));
+                                }
+                            }
+                        });
+                        detectTextFromImage();
+                        SystemClock.sleep(1000); // Sleep 5 seconds
+                    } else if (frame.getDataClass() == Image.class) {
+                        Image data = frame.getData();
+                        System.out.println("Data Bonjour");
+                        // Process android.media.Image...
+                    }
                 }
             }
         });
@@ -209,6 +220,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         stopLocationUpdates();
+    }
+
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        if ((keyCode == KeyEvent.KEYCODE_BACK))
+        {
+            finish();
+            tts.stop();
+        } else if (keyCode == KeyEvent.KEYCODE_HOME){
+            finish();
+            tts.stop();
+        } else if (keyCode == KeyEvent.KEYCODE_MOVE_HOME){
+            finish();
+            tts.stop();
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     private void checkSettingsAndStartLocationUpdates(){
@@ -299,24 +326,26 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "No text found in Image.", Toast.LENGTH_SHORT).show();
         }
         else {
+            Log.d("BLOCK TROUVE", "We found a block !");
+            timer_start_speach = System.currentTimeMillis();
             for (FirebaseVisionText.Block block : firebaseVisionText.getBlocks()) {
                 String text = block.getText();
-                Log.d("TEXTE TROUVE", text);
-//                String matchingPlace;
-//                // If the app found nearby points of interests :
-//                if(!nearbyPlaces.isEmpty()){
-//                    // Changer le texte à dire avec le nom du lieu trouvé
-//                    text = matchNearbyPlace(nearbyPlaces, text);
-//                }
+                Log.d("TEXT", text);
+                String matchingPlace;
+                // If the app found nearby points of interests :
+                if(flagMatch && !nearbyPlaces.isEmpty()) {
+                    // Changer le texte à dire avec le nom du lieu trouvé
+                    text = matchNearbyPlace(nearbyPlaces, text);
+                }
 
                 // if text is like the last text dont speak
-                if (!listalreadySaid.subList(Math.max(0,listalreadySaid.size()-4), listalreadySaid.size()).contains(text)) {
+//                if (!listalreadySaid.subList(Math.max(0,listalreadySaid.size()-4), listalreadySaid.size()).contains(text)) {
+                if(!listalreadySaid.contains(text)) {
                     listalreadySaid.add(text);
-                    Log.d("listal", String.valueOf(listalreadySaid));
                     tts.speak(text, TextToSpeech.QUEUE_ADD, null);
                 }
             }
-
+            Log.d("listal", String.valueOf(listalreadySaid));
         }
     }
 
@@ -363,7 +392,6 @@ public class MainActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            System.out.println(name + " " + score);
             if(score > maxScore){
                 maxScore = score;
                 maxScoreIndex = i;
