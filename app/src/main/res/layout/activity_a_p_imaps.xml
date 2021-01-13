@@ -25,14 +25,14 @@
         android:layout_height="110dp"
         android:text="Magasins"
         android:textColor="#FFDD33"
-        android:textSize="40sp"/>
+        android:textSize="35sp"/>
     <Button
         android:id="@+id/buttonRestaurant"
         android:layout_width="match_parent"
         android:layout_height="110dp"
         android:text="Restaurants"
         android:textColor="#5A3B5D"
-        android:textSize="40sp"/>
+        android:textSize="35sp"/>
 
 
     <Button
@@ -41,7 +41,7 @@
         android:layout_height="110dp"
         android:text="Cinémas"
         android:textColor="#FFDD33"
-        android:textSize="40sp"/>
+        android:textSize="35sp"/>
 
     <Button
         android:id="@+id/buttonHospital"
@@ -49,7 +49,7 @@
         android:layout_height="110dp"
         android:text="Hôpitaux"
         android:textColor="#5A3B5D"
-        android:textSize="40sp"/>
+        android:textSize="35sp"/>
 
     <Button
         android:id="@+id/buttonBank"
@@ -57,7 +57,7 @@
         android:layout_height="110dp"
         android:text="Banques"
         android:textColor="#FFDD33"
-        android:textSize="40sp"/>
+        android:textSize="35sp"/>
 
     <Button
         android:id="@+id/buttonATM"
@@ -65,7 +65,7 @@
         android:layout_height="110dp"
         android:text="Distributeurs"
         android:textColor="#5A3B5D"
-        android:textSize="40sp"/>
+        android:textSize="35sp"/>
 
 
     </LinearLayout>
