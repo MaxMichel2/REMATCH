@@ -38,7 +38,7 @@
         android:id="@+id/buttonMovieTheater"
         android:layout_width="match_parent"
         android:layout_height="110dp"
-        android:text="Cinémas/Théâtres"
+        android:text="Cinémas"
         android:textColor="#FFDD33"
         android:textSize="40sp"/>
 
