@@ -13,7 +13,9 @@ import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.YuvImage;
 import android.location.Location;
+import android.media.AudioManager;
 import android.media.Image;
+import android.media.ToneGenerator;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Looper;
@@ -84,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> listalreadySaid= new ArrayList<String>();
     private TextToSpeech tts;
     private ArrayList<String> nearbyPlaces = new ArrayList<String>();
+    private ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
 
     // Partie Places
     FusedLocationProviderClient fusedLocationProviderClient;
@@ -324,6 +327,7 @@ public class MainActivity extends AppCompatActivity {
         List<FirebaseVisionText.Block> blockList = firebaseVisionText.getBlocks();
         if (blockList.size()==0){
             Toast.makeText(this, "No text found in Image.", Toast.LENGTH_SHORT).show();
+            toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP,50);
         }
         else {
             Log.d("BLOCK TROUVE", "We found a block !");
